@@ -10,7 +10,7 @@ You can [see the examples live](http://labs.topheman.com/Ball) (source code on g
 
 This class could be used in all kinds of animations and games such as pool billard or air hockey ...
 
-##[See Ball.js API](./Wiki.md)
+##[See Ball.js API](https://github.com/topheman/Ball.js/blob/master/Wiki.md)
 
 ##Files to include :
 To use Ball.js, you only have to include Vector2D.js (a js implementation of the java class) and my own class : Ball.js :
