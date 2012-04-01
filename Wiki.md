@@ -5,7 +5,7 @@ The source code is widely documented, so you will find all the specifications fo
 ##Files to include :
 To use Ball.js, you only have to include Vector2D.js (a js implementation of the java class) and my own class : Ball.js :
 
-```html
+```Js
 <script src="../Vector2D.js" type="text/javascript"></script>
 <script src="../Ball.js" type="text/javascript"></script>
 ```
