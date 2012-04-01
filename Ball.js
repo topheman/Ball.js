@@ -1,13 +1,16 @@
 /*!
- * TophemanBall
- * http://ball.topheman.com/
- *
+ * 
  * Copyright 2012, Christophe Rosset (Topheman)
  * http://blog.topheman.com/
  * http://twitter.com/topheman
+ * 
+ * You are free to use, modify and distribute this software under the conditions of the Creative Commons 3.0 license
+ * http://creativecommons.org/licenses/by/3.0/
  *
  * Ball.js
  * Manages Ball physics and display on a flat area (collisions, gravity, bounces ...)
+ * 
+ * More explanations on http://labs.topheman.com/Ball/
  * 
  * @dependency Vector2D.js
  */
@@ -30,11 +33,11 @@
  *      .dyingRate {Int} number of frames to shrink from radius (when the  ball is dying or .toDeath() is triggered)
  *      .bouncingAlpha {Boolean} (true will activate alpha mode when the ball bounces against something)
  *      .bouncingColor {String}|{Boolean} (string color hexa code will activate the bounce color mode : the ball chnages color when bouncing against something)
- *      .bouncingRate {Int}
+ *      .bouncingRate {Int} number of frames the bounce effects will last
  *      .glowingColor {String}|{Boolean} (string color hexa code will allow to use glow() ant stopGlow() functions)
- *      .glowingRate {Int} (fps) 
+ *      .glowingRate {Int} (fps) number of frames the glowing effects will last
  *      .blinkingColor {String}|{Boolean} (string color hexa code will allow to use blink() ant stopBlink() functions)
- *      .blinkingRate {Int} (fps)
+ *      .blinkingRate {Int} (fps) number of frames the blinking effects will last
  *      .explodingAlpha {Boolean} (true will fade the ball when .explode() is triggered)
  *      .explodingColor {String} (string color hexa code)
  *      .explodingRadius {Int}
@@ -187,45 +190,45 @@ Ball.prototype.setRadius = function(radius){
 }
 
 /**
- * @return {Int}
+ * @return {Number}
  */
 Ball.prototype.getMass = function(){return this.mass;}
 
 /**
- * @param {Int} mass
+ * @param {Number} mass
  * @return {Ball}
  */
 Ball.prototype.setMass = function(mass){this.mass = mass;return this;}
 
 /**
- * @return {Int}
+ * @return {Number}
  */
 Ball.prototype.getGravity = function(){return this.gravity;}
 
 /**
- * @param {Int} gravity
+ * @param {Number} gravity
  * @return {Ball}
  */
 Ball.prototype.setGravity = function(gravity){this.gravity = gravity;return this;}
 
 /**
- * @return {Int}
+ * @return {Number}
  */
 Ball.prototype.getElasticity = function(){return this.elasticity;}
 
 /**
- * @param {Int} elasticity
+ * @param {Number} elasticity
  * @return {Ball}
  */
 Ball.prototype.setElasticity = function(elasticity){this.elasticity = elasticity;return this;}
 
 /**
- * @return {Int}
+ * @return {Number}
  */
 Ball.prototype.getFriction = function(){return this.friction;}
 
 /**
- * @param {Int} friction
+ * @param {Number} friction
  * @return {Ball}
  */
 Ball.prototype.setFriction = function(friction){this.friction = friction;return this;}
@@ -1056,10 +1059,8 @@ Ball.prototype.setRandomPositionAndSpeedOutOfBounds = function(stageWidth,stageH
 
 /**
  * @param {CanvasRenderingContext2D} ctx
- * @param {Boolean} glow @optional
  */
-Ball.prototype.draw = function(ctx,glow){
-    glow = glow || false;
+Ball.prototype.draw = function(ctx){
     if(this.alpha < 1){
         ctx.globalAlpha = this.alpha;
     }
