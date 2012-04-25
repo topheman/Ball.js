@@ -1080,7 +1080,7 @@ Ball.prototype.draw = function(ctx){
  * @return {String}
  */
 Ball.prototype.renderHtml = function(){
-    return '<div'+this.htmlClassAttribute+' style="top:'+(this.getY()-this.getRadius())+'px;left:'+(this.getX()-this.getRadius())+'px;background:'+this.getColor()+';width:'+this.getRadius()*2+'px;height:'+this.getRadius()*2+'px;border-radius:'+this.getRadius()+'px;opacity:'+this.getAlpha()+'"></div>';
+    return '<div'+this.htmlClassAttribute+' style="top:'+(this.getY()-this.getRadius())+'px;left:'+(this.getX()-this.getRadius())+'px;background:'+this.getColor()+';width:'+this.getRadius()*2+'px;height:'+this.getRadius()*2+'px;border-radius:'+this.getRadius()+'px;-moz-border-radius:'+this.getRadius()+'px;opacity:'+this.getAlpha()+'"></div>';
 }
 
 /**
