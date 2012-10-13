@@ -12,7 +12,7 @@
  * 
  * More explanations on http://labs.topheman.com/Ball/
  * 
- * @version 1.0
+ * @version 2.0
  * @dependency Vector2D.js
  */
 
@@ -69,7 +69,7 @@ Ball.prototype.init = function(x,y,radius,mass,gravity,elasticity,friction,color
     this.friction       = friction || 0.8;
     this.color          = color.toLowerCase() || '#0000ff';//blue
     this._color         = color.toLowerCase() || '#0000ff';//@private
-    this.alpha          = options ? (options.alpha ? (this.validateAlpha(options.alpha) == true ? options.alpha : 1) : 1) : 1;
+    this.alpha          = options ? (options.alpha ? (this.validateAlpha(options.alpha) === true ? options.alpha : 1) : 1) : 1;
     this._alpha         = this.alpha;//@private
     this._iterator      = 0;//internal iterator
     this.lifeTime       = lifeTime || Infinity;
@@ -106,11 +106,11 @@ Ball.prototype.init = function(x,y,radius,mass,gravity,elasticity,friction,color
     this.explodingRate      = options ? (options.explodingRate ? options.explodingRate : 60) : 60;
     this.explodingInfos     = null;
     
-    if(this.bouncingColor != this.color && this.validateColorCode(this.bouncingColor) == false)
+    if(this.bouncingColor !== this.color && this.validateColorCode(this.bouncingColor) === false)
         console.warn("[WARN]Hexa code expected for bouncingColor. You gave : "+this.bouncingColor);
-    if(this.glowingColor != this.color && this.validateColorCode(this.glowingColor) == false)
+    if(this.glowingColor !== this.color && this.validateColorCode(this.glowingColor) === false)
         console.warn("[WARN]Hexa code expected for glowingColor. You gave : "+this.glowingColor);
-    if(this.explodingColor != this.color && this.validateColorCode(this.explodingColor) == false)
+    if(this.explodingColor !== this.color && this.validateColorCode(this.explodingColor) === false)
         console.warn("[WARN]Hexa code expected for explodingColor. You gave : "+this.explodingColor);    
     if(this.explodingRadius < this.radius)
         console.warn("[WARN]explodingRadius < radius, expect error with .explode()");
@@ -119,61 +119,61 @@ Ball.prototype.init = function(x,y,radius,mass,gravity,elasticity,friction,color
     this.htmlClassAttribute = options ? (options.htmlClassName ? ' class="'+options.htmlClassName+'"' : '') : '';
     
     //at the end of the construct, if aging is on, the ball borns
-    if(this.aging == true)
+    if(this.aging === true)
         this.born();
     
-}
+};
 
 /********** Public setters and getters (use these functions rather than direct access to properties)  ***********/
 
 /**
  * @return {Int}
  */
-Ball.prototype.getX = function(){return this.x;}
+Ball.prototype.getX = function(){return this.x;};
 
 /**
  * @param {Int} x
  * @return {Ball}
  */
-Ball.prototype.setX = function(x){this.x = x;return this;}
+Ball.prototype.setX = function(x){this.x = x;return this;};
 
 /**
  * @return {Int}
  */
-Ball.prototype.getY = function(){return this.y;}
+Ball.prototype.getY = function(){return this.y;};
 
 /**
  * @param {Int} y
  * @return {Ball}
  */
-Ball.prototype.setY = function(y){this.y = y;return this;}
+Ball.prototype.setY = function(y){this.y = y;return this;};
 
 /**
  * @return {Number}
  */
-Ball.prototype.getVelocityX = function(){return this.velocityX;}
+Ball.prototype.getVelocityX = function(){return this.velocityX;};
 
 /**
  * @param {Number} velocityX
  * @return {Ball}
  */
-Ball.prototype.setVelocityX = function(velocityX){this.velocityX = velocityX;return this;}
+Ball.prototype.setVelocityX = function(velocityX){this.velocityX = velocityX;return this;};
 
 /**
  * @return {Number}
  */
-Ball.prototype.getVelocityY = function(){return this.velocityY;}
+Ball.prototype.getVelocityY = function(){return this.velocityY;};
 
 /**
  * @param {Number} velocityY
  * @return {Ball}
  */
-Ball.prototype.setVelocityY = function(velocityY){this.velocityY = velocityY;return this;}
+Ball.prototype.setVelocityY = function(velocityY){this.velocityY = velocityY;return this;};
 
 /**
  * @return {Int}
  */
-Ball.prototype.getRadius = function(){return this.radius;}
+Ball.prototype.getRadius = function(){return this.radius;};
 
 /**
  * @warn won't be effective if .explode() has already been triggered;
@@ -188,56 +188,56 @@ Ball.prototype.setRadius = function(radius){
     this.radius = radius;
     this._radius = radius;
     return this;
-}
+};
 
 /**
  * @return {Number}
  */
-Ball.prototype.getMass = function(){return this.mass;}
+Ball.prototype.getMass = function(){return this.mass;};
 
 /**
  * @param {Number} mass
  * @return {Ball}
  */
-Ball.prototype.setMass = function(mass){this.mass = mass;return this;}
+Ball.prototype.setMass = function(mass){this.mass = mass;return this;};
 
 /**
  * @return {Number}
  */
-Ball.prototype.getGravity = function(){return this.gravity;}
+Ball.prototype.getGravity = function(){return this.gravity;};
 
 /**
  * @param {Number} gravity
  * @return {Ball}
  */
-Ball.prototype.setGravity = function(gravity){this.gravity = gravity;return this;}
+Ball.prototype.setGravity = function(gravity){this.gravity = gravity;return this;};
 
 /**
  * @return {Number}
  */
-Ball.prototype.getElasticity = function(){return this.elasticity;}
+Ball.prototype.getElasticity = function(){return this.elasticity;};
 
 /**
  * @param {Number} elasticity
  * @return {Ball}
  */
-Ball.prototype.setElasticity = function(elasticity){this.elasticity = elasticity;return this;}
+Ball.prototype.setElasticity = function(elasticity){this.elasticity = elasticity;return this;};
 
 /**
  * @return {Number}
  */
-Ball.prototype.getFriction = function(){return this.friction;}
+Ball.prototype.getFriction = function(){return this.friction;};
 
 /**
  * @param {Number} friction
  * @return {Ball}
  */
-Ball.prototype.setFriction = function(friction){this.friction = friction;return this;}
+Ball.prototype.setFriction = function(friction){this.friction = friction;return this;};
 
 /**
  * @return {String}
  */
-Ball.prototype.getColor = function(){return this.color;}
+Ball.prototype.getColor = function(){return this.color;};
 
 /**
  * @warn won't be effective if .explode() has already been triggered;
@@ -257,12 +257,12 @@ Ball.prototype.setColor = function(color){
         this.startGlowing();
     }
     return this;
-}
+};
 
 /**
  * @return {Number}
  */
-Ball.prototype.getAlpha = function(){return this.alpha;}
+Ball.prototype.getAlpha = function(){return this.alpha;};
 
 /**
  * @warn won't be effective if .explode() has already been triggered;
@@ -278,38 +278,38 @@ Ball.prototype.setAlpha = function(alpha){
         this._alpha = alpha;
     }
     return this;
-}
+};
 
 /**
  * @return {Int}
  */
-Ball.prototype.getLifeTime = function(){return this.lifeTime;}
+Ball.prototype.getLifeTime = function(){return this.lifeTime;};
 
 /**
  * @param {Number} lifeTime
  * @return {Ball}
  */
-Ball.prototype.setLifeTime = function(lifeTime){this.lifeTime = lifeTime;return this;}
+Ball.prototype.setLifeTime = function(lifeTime){this.lifeTime = lifeTime;return this;};
 
 /**
  * @return {Boolean}
  */
-Ball.prototype.isDead = function(){return this.dead;}
+Ball.prototype.isDead = function(){return this.dead;};
 
 /**
  * @return {Boolean}
  */
-Ball.prototype.isDying = function(){return this.dying;}
+Ball.prototype.isDying = function(){return this.dying;};
 
 /**
  * @return {String}
  */
-Ball.prototype.getBouncingColor = function(){return this.bouncingColor;}
+Ball.prototype.getBouncingColor = function(){return this.bouncingColor;};
 
 /**
  * @return {String}
  */
-Ball.prototype.getGlowingColor = function(){return this.glowingColor;}
+Ball.prototype.getGlowingColor = function(){return this.glowingColor;};
 
 /**
  * @param {String} glowingColor
@@ -323,12 +323,12 @@ Ball.prototype.setGlowingColor = function(glowingColor){
         this.startGlowing();
     }
     return this;
-}
+};
 
 /**
  * @return {Int}
  */
-Ball.prototype.getGlowingRate = function(){return this.glowingRate;}
+Ball.prototype.getGlowingRate = function(){return this.glowingRate;};
 
 /**
  * @param {Int} glowingRate
@@ -341,12 +341,12 @@ Ball.prototype.setGlowingRate = function(glowingRate){
         this.startGlowing();
     }
     return this;
-}
+};
 
 /**
  * @return {String}
  */
-Ball.prototype.getBlinkingColor = function(){return this.blinkingColor;}
+Ball.prototype.getBlinkingColor = function(){return this.blinkingColor;};
 
 /**
  * @param {String} blinkingColor
@@ -359,12 +359,12 @@ Ball.prototype.setBlinkingColor = function(blinkingColor){
         this.startBlinking();
     }
     return this;
-}
+};
 
 /**
  * @return {Int}
  */
-Ball.prototype.getDyingRate = function(){return this.dyingRate;}
+Ball.prototype.getDyingRate = function(){return this.dyingRate;};
 
 /**
  * @warn won't be effective if ball already dying
@@ -373,16 +373,16 @@ Ball.prototype.getDyingRate = function(){return this.dyingRate;}
  */
 Ball.prototype.setDyingRate = function(dyingRate){
     //doesn't change if already dying
-    if(this.isDying() == false){
+    if(this.isDying() === false){
         this.dyingRate = dyingRate;
     }
     return this;
-}
+};
 
 /**
  * @return {Int}
  */
-Ball.prototype.getBlinkingRate = function(){return this.blinkingRate;}
+Ball.prototype.getBlinkingRate = function(){return this.blinkingRate;};
 
 /**
  * @param {Int} blinkingRate
@@ -395,12 +395,12 @@ Ball.prototype.setBlinkingRate = function(blinkingRate){
         this.startBlinking();
     }
     return this;
-}
+};
 
 /**
  * @return {Boolean}
  */
-Ball.prototype.getExplodingAlpha = function(){return this.explodingAlpha;}
+Ball.prototype.getExplodingAlpha = function(){return this.explodingAlpha;};
 
 /**
  * @warn won't be effective if .explode() has already been triggered;
@@ -408,15 +408,15 @@ Ball.prototype.getExplodingAlpha = function(){return this.explodingAlpha;}
  * @return {Ball}
  */
 Ball.prototype.setExplodingAlpha = function(explodingAlpha){
-    if(this.isExploding() == false && this.validateAlpha(explodingAlpha))
+    if(this.isExploding() === false && this.validateAlpha(explodingAlpha))
         this.explodingAlpha = explodingAlpha;
     return this;
-}
+};
 
 /**
  * @return {Int}
  */
-Ball.prototype.getExplodingRadius = function(){return this.explodingRadius;}
+Ball.prototype.getExplodingRadius = function(){return this.explodingRadius;};
 
 /**
  * @warn won't be effective if .explode() has already been triggered;
@@ -424,15 +424,15 @@ Ball.prototype.getExplodingRadius = function(){return this.explodingRadius;}
  * @return {Ball}
  */
 Ball.prototype.setExplodingRadius = function(explodingRadius){
-    if(this.isExploding() == false)
+    if(this.isExploding() === false)
         this.explodingRadius = explodingRadius;
     return this;
-}
+};
 
 /**
  * @return {Int}
  */
-Ball.prototype.getExplodingRate = function(){return this.explodingRate;}
+Ball.prototype.getExplodingRate = function(){return this.explodingRate;};
 
 /**
  * @warn won't be effective if .explode() has already been triggered;
@@ -440,15 +440,15 @@ Ball.prototype.getExplodingRate = function(){return this.explodingRate;}
  * @return {Ball}
  */
 Ball.prototype.setExplodingRate = function(explodingRate){
-    if(this.isExploding() == false)
+    if(this.isExploding() === false)
         this.explodingRate = explodingRate;
     return this;
-}
+};
 
 /**
  * @return {String}
  */
-Ball.prototype.getExplodingColor = function(){return this.explodingColor;}
+Ball.prototype.getExplodingColor = function(){return this.explodingColor;};
 
 /**
  * @warn won't be effective if .explode() has already been triggered;
@@ -456,34 +456,34 @@ Ball.prototype.getExplodingColor = function(){return this.explodingColor;}
  * @return {Ball}
  */
 Ball.prototype.setExplodingColor = function(explodingColor){
-    if(this.isExploding() == false && this.validateColorCode(explodingColor))
+    if(this.isExploding() === false && this.validateColorCode(explodingColor))
         this.explodingRate = explodingColor;
     return this;
-}
+};
 
 /**
  * Returns true if glowing
  * @return {Boolean}
  */
-Ball.prototype.isGlowing = function(){return this.glowingColorInfos != null ? true : false;}
+Ball.prototype.isGlowing = function(){return this.glowingColorInfos !== null ? true : false;};
 
 /**
  * Returns true if is changing color on bounce
  * @return {Boolean}
  */
-Ball.prototype.isBouncing = function(){return this.bouncingInfos != null ? (this._iterator <= this.bouncingInfos.iteratorEnd ? true : false) : false;}
+Ball.prototype.isBouncing = function(){return this.bouncingInfos !== null ? (this._iterator <= this.bouncingInfos.iteratorEnd ? true : false) : false;};
 
 /**
  * Returns true if blinking
  * @return {Boolean}
  */
-Ball.prototype.isBlinking = function(){return this.blinking;}
+Ball.prototype.isBlinking = function(){return this.blinking;};
 
 /**
  * Returns true if exploding
  * @return {Boolean}
  */
-Ball.prototype.isExploding = function(){return this.explodingInfos != null ? (this._iterator <= this.explodingInfos.iteratorEnd ? true : false) : false;}
+Ball.prototype.isExploding = function(){return this.explodingInfos !== null ? (this._iterator <= this.explodingInfos.iteratorEnd ? true : false) : false;};
 
 /********** End of public setters and getters **********/
 
@@ -495,19 +495,19 @@ Ball.prototype.initBouncingInfos = function(){
     this.bouncingInfos = {
         iteratorStart: this._iterator,
         iteratorEnd: this._iterator + this.bouncingRate
-    }
-}
+    };
+};
 
 /**
  * Updates the alpha (used for globalAlpha in canvas rendering)
  * This function is automatically called on ball vs ball collisions, you can also call it from outside if you want.
  */
 Ball.prototype.updateAlphaOnCollision = function(){
-    if(this.bouncingAlpha == true){
+    if(this.bouncingAlpha === true){
         this.initBouncingInfos();
         this.alpha = this.minBouncingAlpha;
     }
-}
+};
 
 /**
  * Updates the alpha (used for globalAlpha in canvas rendering)
@@ -515,42 +515,42 @@ Ball.prototype.updateAlphaOnCollision = function(){
  */
 Ball.prototype.updateAlphaOnMove = function(){
 
-    if(this.isExploding() && this.explodingAlpha == true){
+    if(this.isExploding() && this.explodingAlpha === true){
         this.alpha = this.alpha - (this._alpha)/this.bouncingRate;
         if(this.alpha < 0) this.alpha = 0;
     }
     else if(this.isBouncing()){
-        if(this.bouncingAlpha == true && this.alpha <= this._alpha){
+        if(this.bouncingAlpha === true && this.alpha <= this._alpha){
             this.alpha = this.alpha + (this._alpha-this.minBouncingAlpha)/this.bouncingRate;
         }
     }
     //fallback to return the original _alpha
-    else if(this.alpha != this._alpha){
+    else if(this.alpha !== this._alpha){
         this.alpha = this._alpha;
     }
     
-}
+};
 
 /**
  * Updates the color (used in canvas rendering)
  * This function is automatically called on ball vs ball collisions, you can also call it from outside if you want.
  */
 Ball.prototype.updateColorOnCollision = function(){
-    if(this.bouncingColor != this._color){
+    if(this.bouncingColor !== this._color){
         this.initBouncingInfos();
         this.color = this.bouncingColor;
     }
-}
+};
 
 /**
  * Updates the color
  * This function is automatically called on ball move, you can also call it from outside if you want.
  */
 Ball.prototype.updateColorOnMove = function(){
-    if(this.isExploding() && this._color != this.explodingColor){
+    if(this.isExploding() && this._color !== this.explodingColor){
         this.color = this.computeColor(this._iterator, this._color, this.explodingColor, this.explodingInfos.iteratorStart, this.explodingInfos.iteratorEnd);
     }
-    else if(this.isBouncing() && this._color != this.bouncingColor){
+    else if(this.isBouncing() && this._color !== this.bouncingColor){
         this.color = this.computeColor(this._iterator, this.bouncingColor, this._color, this.bouncingInfos.iteratorStart, this.bouncingInfos.iteratorEnd);
     }
     else if(this.isGlowing()){
@@ -559,7 +559,7 @@ Ball.prototype.updateColorOnMove = function(){
     else if(this.isBlinking()){
         this.computeAndSetBlinkingColor();
     }
-}
+};
 
 Ball.prototype.updateRadiusOnMove = function(){
     
@@ -571,21 +571,21 @@ Ball.prototype.updateRadiusOnMove = function(){
     }
     else{
         //if aging mode On and still growing up (and not grown up), continue to grow up
-        if(this.aging == true && this.dead == false && this.dying == false && this.radius < this._radius && this.dying == false){
+        if(this.aging === true && this.dead === false && this.dying === false && this.radius < this._radius && this.dying === false){
             this.radius = this.radius + (this.radius < this._radius ? this._radius/this.borningRate : 0);
             //fallback if this.radius grows up to original radius
             if(this.radius > this._radius)
                 this.radius = this._radius;
         }
         //if dying shrink down
-        if(this.dead == false && this.dying == true && this.lifeTime <= this.dyingRate){
+        if(this.dead === false && this.dying === true && this.lifeTime <= this.dyingRate){
             this.radius = this.radius - (this.radius > 0 ? this._radius/this.dyingRate : 0);
             //fallback if this.radius shrinks down to 0
             if(this.radius < 0)
                 this.radius = 0;
         }
     }
-}
+};
 
 /**
  * If glowingColor enabled in options, starts glowing the ball
@@ -599,7 +599,7 @@ Ball.prototype.glow = function(){
         return this;
     else
         return this.startGlowing();
-}
+};
 
 /**
  * Stops glowing the ball
@@ -612,7 +612,7 @@ Ball.prototype.stopGlow = function(){
     }
     else
         return this;
-}
+};
 
 /**
  * @private use glow() (don't bother with initating glowing)
@@ -629,13 +629,13 @@ Ball.prototype.startGlowing = function(){
     if(this.isBlinking())
         this.stopBlinking();
     //if the original color and the glowingColor are the same -> no glowing
-    if(this.glowingColor == this._color)
+    if(this.glowingColor === this._color)
         return this;
     //reset the color to origninal color (in case we are glowing and the color is changing)
     this.color = this._color;
     this.computeAndSetGlowingColor();
     return this;
-}
+};
 
 /**
  * @private use stopGlow()
@@ -645,12 +645,12 @@ Ball.prototype.startGlowing = function(){
  */
 Ball.prototype.stopGlowing = function(){
     //if the original color and the glowingColor are the same -> no glowing
-    if(this.glowingColor == this._color)
+    if(this.glowingColor === this._color)
         return this;
     this.glowingColorInfos  = null;
     this.color              = this._color;//reset default color
     return this;
-}
+};
 
 /**
  * If blinkingColor enabled in options, starts blinking the ball
@@ -664,7 +664,7 @@ Ball.prototype.blink = function(){
         return this;
     else
         return this.startBlinking();
-}
+};
 
 /**
  * Stops blinking the ball
@@ -677,7 +677,7 @@ Ball.prototype.stopBlink = function(){
     }
     else
         return this;
-}
+};
 
 /**
  * @private use blink() (don't bother with initating blinking)
@@ -694,13 +694,13 @@ Ball.prototype.startBlinking = function(){
     if(this.isGlowing())
         this.stopGlowing();
     //if the original color and the glowingColor are the same -> no glowing
-    if(this.blinkingColor == this._color)
+    if(this.blinkingColor === this._color)
         return this;
     //reset the color to origninal color (in case we are glowing and the color is changing)
     this.blinking = true;
     this.color = this._color;
     return this;
-}
+};
 
 /**
  * @private use stopBlink()
@@ -710,12 +710,12 @@ Ball.prototype.startBlinking = function(){
  */
 Ball.prototype.stopBlinking = function(){
     //if the original color and the glowingColor are the same -> no glowing
-    if(this.blinkingColor == this._color)
+    if(this.blinkingColor === this._color)
         return this;
     this.blinking           = false;
     this.color              = this._color;//reset default color
     return this;
-}
+};
 
 Ball.prototype.explode = function(){
     //override dying
@@ -730,8 +730,8 @@ Ball.prototype.explode = function(){
     this.explodingInfos = {
         iteratorStart: this._iterator,
         iteratorEnd: this._iterator + this.explodingRate
-    }
-}
+    };
+};
 
 /**
  * @private
@@ -740,14 +740,14 @@ Ball.prototype.explode = function(){
  */
 Ball.prototype.computeAndSetGlowingColor = function(){
     //new iteration each time this._color or this.glowingColor is reached by this.color
-    if(this.color == this._color){
+    if(this.color === this._color){
         this.glowingColorInfos = {
             iteratorStart   : this._iterator,
             iteratorEnd     : this._iterator + this.glowingRate,
             state           : 'up'
         };
     }
-    else if(this.color == this.glowingColor){
+    else if(this.color === this.glowingColor){
         this.glowingColorInfos = {
             iteratorStart   : this._iterator,
             iteratorEnd     : this._iterator + this.glowingRate,
@@ -756,7 +756,7 @@ Ball.prototype.computeAndSetGlowingColor = function(){
     }
     
     var colorFrom, colorTo;
-    if(this.glowingColorInfos.state == 'up'){
+    if(this.glowingColorInfos.state === 'up'){
         colorFrom   = this._color;
         colorTo     = this.glowingColor;
     }
@@ -766,7 +766,7 @@ Ball.prototype.computeAndSetGlowingColor = function(){
     }
 
     this.color = this.computeColor(this._iterator+1, colorFrom, colorTo, this.glowingColorInfos.iteratorStart, this.glowingColorInfos.iteratorEnd);
-}
+};
 
 /**
  * @private
@@ -774,13 +774,13 @@ Ball.prototype.computeAndSetGlowingColor = function(){
  * Prepares the ball for blinking
  */
 Ball.prototype.computeAndSetBlinkingColor = function(){
-    if(this._iterator%this.blinkingRate == 0 && this.color == this._color){
+    if(this._iterator%this.blinkingRate === 0 && this.color === this._color){
         this.color = this.blinkingColor;
     }
-    else if(this._iterator%this.blinkingRate == 0 && this.color == this.blinkingColor){
+    else if(this._iterator%this.blinkingRate === 0 && this.color === this.blinkingColor){
         this.color = this._color;
     }
-}
+};
 
 /**
  * @param {Number} dx
@@ -805,7 +805,7 @@ Ball.prototype.move = function(dx,dy){
     this.updateColorOnMove();
     this.age();
     return this;
-}
+};
 
 /**
  * @private
@@ -816,7 +816,7 @@ Ball.prototype.born = function(){
     this.radius = 1;
     this.dying  = false;
     this.dead   = false;
-}
+};
 
 /**
  * Flags the ball as dead
@@ -827,7 +827,7 @@ Ball.prototype.born = function(){
 Ball.prototype.die = function(){
     this.dead = true;
     return this;
-}
+};
 
 /**
  * Flags the ball as dying, will activate the aging process then die
@@ -838,7 +838,7 @@ Ball.prototype.toDeath = function(){
     this.dying = true;
     this.lifeTime = this.dyingRate;
     return this;
-}
+};
 
 /**
  * @private (please use aging:true in options at construct)
@@ -859,7 +859,7 @@ Ball.prototype.age = function(){
     if(this.lifeTime < 1)
         this.die();
     
-}
+};
     
 /**
  * @param {Ball} ball
@@ -886,7 +886,7 @@ Ball.prototype.checkBallCollision = function(ball){
 
     return false;
     
-}
+};
 
 /**
  * @param {Ball} ball
@@ -945,7 +945,7 @@ Ball.prototype.resolveBallCollision = function(ball,callback){
     if(callback)
         callback.call({});
     
-}
+};
 
 /**
  * @param {Int} stageWidth
@@ -987,7 +987,7 @@ Ball.prototype.manageStageBorderCollision = function(stageWidth,stageHeight,call
         if(callback)
             callback.call({});
     }
-}
+};
 
 /**
  * @param {Int} stageWidth
@@ -1003,7 +1003,7 @@ Ball.prototype.checkOutOfBounds = function(stageWidth,stageHeight){
         return true;
     else
         return false;
-}
+};
 
 /**
  * @param {Int} stageWidth
@@ -1020,7 +1020,7 @@ Ball.prototype.setRandomPositionAndSpeedInBounds = function(stageWidth,stageHeig
     this.velocityX = this.random()*10;
     this.velocityY = this.random()*10;
     return this;
-}
+};
 
 /**
  * @param {Int} stageWidth
@@ -1056,7 +1056,7 @@ Ball.prototype.setRandomPositionAndSpeedOutOfBounds = function(stageWidth,stageH
     this.temporaryOutOfBounds = true;
     
     return this;
-}
+};
 
 /**
  * @param {CanvasRenderingContext2D} ctx
@@ -1073,7 +1073,7 @@ Ball.prototype.draw = function(ctx){
     if(this.alpha < 1){
         ctx.globalAlpha = 1;
     }
-}
+};
 
 /**
  * Returns the innerHtml if you don't use canvas
@@ -1082,23 +1082,23 @@ Ball.prototype.draw = function(ctx){
  */
 Ball.prototype.renderHtml = function(){
     return '<div'+this.htmlClassAttribute+' style="top:'+(this.getY()-this.getRadius())+'px;left:'+(this.getX()-this.getRadius())+'px;background:'+this.getColor()+';width:'+this.getRadius()*2+'px;height:'+this.getRadius()*2+'px;border-radius:'+this.getRadius()+'px;-moz-border-radius:'+this.getRadius()+'px;opacity:'+this.getAlpha()+'"></div>';
-}
+};
 
 /**
- * @param {Ball}
+ * @param {Ball} ball
  * @return {Number}
  */
 Ball.prototype.computeDistance = function(ball){
     return Math.sqrt( Math.pow(this.x - ball.x,2) + Math.pow(this.y - ball.y,2) );
-}
+};
 
 /**
- * @param {Ball}
+ * @param {Ball} ball
  * @return {Vector2D}
  */
 Ball.prototype.getVector2D = function(ball){
     return new Vector2D(this.x - ball.x, this.y - ball.y);
-}
+};
 
 /**
  * @param {Int} currentIndex (current iterator index of the loop)
@@ -1122,7 +1122,7 @@ Ball.prototype.computeColor = function(currentIndex, colorStart, colorEnd, index
     b |= (r << 16) | (g << 8);
 
     return "#" + ("000000" + b.toString(16)).slice(-6);
-}
+};
 
 /**
  * @param {String} colorCode
@@ -1133,7 +1133,7 @@ Ball.prototype.computeColor = function(currentIndex, colorStart, colorEnd, index
 Ball.prototype.validateColorCode = function(colorCode){
     var regColorcode = /^(#)?([0-9a-fA-F]{3})([0-9a-fA-F]{3})?$/;
     return regColorcode.test(colorCode);
-}
+};
 
 /*
  * @param {Number} alpha
@@ -1144,7 +1144,7 @@ Ball.prototype.validateAlpha = function(alpha){
         return true;
     else
         return false;
-}
+};
 
 /**
  * Alias Math.random (optimize global access)
@@ -1152,12 +1152,13 @@ Ball.prototype.validateAlpha = function(alpha){
  */
 Ball.prototype.random = function(){
     return Math.random();
-}
+};
 
 /**
  * Alias Math.round (optimize global access)
+ * @param {Number} number
  * @return {Int}
  */
 Ball.prototype.round = function(number){
     return Math.round(number);
-}
+};
