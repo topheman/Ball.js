@@ -1,5 +1,7 @@
 #Ball.js
 
+v1.0
+
 Ball.js is a Javascript class that handles **physics interactions** between balls on a flat area (i.e. collisions) as well as **rendering**.
 You can **render in canvas mode as well as in html mode**.
 You have a bunch of display effects such as glowing, blinking, exploding (changing the radius, color, alpha) ...

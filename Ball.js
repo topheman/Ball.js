@@ -12,6 +12,7 @@
  * 
  * More explanations on http://labs.topheman.com/Ball/
  * 
+ * @version 1.0
  * @dependency Vector2D.js
  */
 
