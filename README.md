@@ -1,6 +1,6 @@
-#Ball.js
+#Ball.js 2.0
 
-v1.0
+v2.0 - **Work in progress, more features to come for this version !**
 
 Ball.js is a Javascript class that handles **physics interactions** between balls on a flat area (i.e. collisions) as well as **rendering**.
 You can **render in canvas mode as well as in html mode**.
