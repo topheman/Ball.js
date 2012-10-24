@@ -8,11 +8,11 @@ You have a bunch of display effects such as glowing, blinking, exploding (changi
 
 I made an **HTML5/Javascript** game based on this class. You can see it in action on [Topheman Bombs](http://bombs.topheman.com)
 
-You can [see the examples live](http://labs.topheman.com/Ball) (source code on github repository)
+You can [see the examples live](http://labs.topheman.com/Ball-v2) (Ball.js v2.0) (source code on github repository)
 
 This class could be used in all kinds of animations and games such as pool billard or air hockey ...
 
-##[See Ball.js API](https://github.com/topheman/Ball.js/blob/master/Wiki.md)
+##[See Ball.js API](https://github.com/topheman/Ball.js/blob/v2/Wiki.md) (v2.0)
 
 ##Files to include :
 To use Ball.js, you only have to include Vector2D.js (a js implementation of the java class) and my own class : Ball.js :
@@ -22,8 +22,13 @@ To use Ball.js, you only have to include Vector2D.js (a js implementation of the
 <script src="../Ball.js" type="text/javascript"></script>
 ```
 
+##V2 Change log
+
+* explodingRadius : deprecated, use explodingRadiusRatio (in options, setters, getters)
+* new method toRadius() : if you wan't to grow a ball, you don't have to bother with updating radius at each frame
+
 ##Improvements todo :
 
-* Include Vector2D inside Ball.js to optimize garbage collection
+* solve the problem on the resolveEdgeCollision method - please help me !
 
 copyright © 2012 Christophe Rosset (Topheman), released under [Creative Commons 3.0 license](http://creativecommons.org/licenses/by-sa/3.0/)

@@ -1,6 +1,8 @@
-#Ball.js
+#Ball.js v2.0
 
-The source code is widely documented, so you will find all the specifications for the methods in it. Also, here is API of Ball.js. Please try the [demos](http://labs.topheman.com/Ball/) on my site and the HTML5/Javascript Game I made : [Topheman Bombs](http://bombs.topheman.com)
+v2.0 - **Work in progress, more features to come for this version !**
+
+The source code is widely documented, so you will find all the specifications for the methods in it. Also, here is API of Ball.js. Please try the [demos](http://labs.topheman.com/Ball-v2/) (v2.0) on my site and the HTML5/Javascript Game I made : [Topheman Bombs](http://bombs.topheman.com)
 
 ##Files to include :
 To use Ball.js, you only have to include Vector2D.js (a js implementation of the java class) and my own class : Ball.js :
@@ -33,13 +35,16 @@ To use Ball.js, you only have to include Vector2D.js (a js implementation of the
  * blinkingRate `<Int>` (fps) number of frames the blinking effects will last
  * explodingAlpha `<Boolean>` (true will fade the ball when .explode() is triggered)
  * explodingColor `<String>` (string color hexa code)
- * explodingRadius `<Int>`
+ * explodingRadiusRatio `<Number>`
  * explodingRate `<Int>`
+ * radiusChangingRate `<Int>`
 
 ##Primary methods :
 * __.move__(`dx <Number>`,`dy <Number>`) (this method __must__ be called so that your ball will be updated (coordinate as well as display)
 * .checkBallCollision(`ball <Ball>`)
 * .resolveBallCollision(`ball <Ball>`, `callback <Function>`)
+* .checkEdgeCollision(`p1 <Object>`, `p2 <Object>`)
+* .resolveEdgeCollision(`p1 <Object>`, `p2 <Object>`, `callback <Function>`) __buggy method - need help to correct the angle response__
 * .manageStageBorderCollision(`stageWidth <Int>`, `stageHeight <Int>`, `callback <Function>`)
 * .setRandomPositionAndSpeedInBounds(`stageWidth <Int>`, `stageHeight <Int>`)
 
@@ -66,7 +71,7 @@ To use Ball.js, you only have to include Vector2D.js (a js implementation of the
 * .getBlinkingColor() / .setBlinkingColor(`<String>`)
 * .getBlinkingRate() / .setBlinkingRate(`<Int>`)
 * .getExplodingAlpha() / .setExplodingAlpha(`<Number>`)
-* .getExplodingRadius() / .setExplodingRadius(`<Int>`)
+* .getExplodingRadiusRatio() / .setExplodingRadiusRatio(`<Number>`)
 * .getExplodingRate() / .setExplodingRate(`<Int>`)
 * .getExplodingColor() / .setExplodingColor(`<String>`)
 * .getDyingRate() / .setDyingRate(`<Int>`)
@@ -77,6 +82,7 @@ To use Ball.js, you only have to include Vector2D.js (a js implementation of the
 * .explode()
 * .toDeath()
 * .die()
+* .toRadius(`<Int>`)
 
 ##Tests comportment methods :
 * .isDead()

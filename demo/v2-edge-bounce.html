@@ -1,7 +1,7 @@
 <!DOCTYPE>
 <html>
     <head>
-        <title>Test Html</title>
+        <title>Test Canvas</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="app-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -12,29 +12,11 @@
         <script src="../Vector2D.js" type="text/javascript"></script>
         <script src="../Ball.js" type="text/javascript"></script>
         <script src="./requestAnimFrame.js" type="text/javascript"></script>
-        <script src="./rendering-tests.js" type="text/javascript"></script>
-        <script>
-            var renderingHtml = true;
-            var renderingCanvas = false;
-            //start animation onload
-            jQuery(function(){
-                animate();
-            })
-        </script>
+        <script src="./v2-edge-bounce.js" type="text/javascript"></script>
         <style>
             body{
-                position:relative;
                 margin:0px;
                 padding:0px;
-                overflow-x:hidden;
-                overflow-y:hidden;
-            }
-            .ball{
-                position:absolute;
-                display: block;
-                /*width:30px;
-                height:30px;
-                border-radius:15px;*/
             }
         </style>
     </head>
@@ -49,6 +31,6 @@
             <li id="radius-plus">.toRadius(radius) (+)</li>
             <li id="radius-minus">.toRadius(radius) (-)</li>
         </ul>
-        <div id="stage"></div>
+        <canvas id="canvas"></canvas>
     </body>
 </html>

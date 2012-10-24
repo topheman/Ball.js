@@ -41,8 +41,9 @@
  *      .blinkingRate {Int} (fps) number of frames the blinking effects will last
  *      .explodingAlpha {Boolean} (true will fade the ball when .explode() is triggered)
  *      .explodingColor {String} (string color hexa code)
- *      .explodingRadius {Int}
+ *      .explodingRadiusRatio {Number}
  *      .explodingRate {Int}
+ *      .radiusChangingRate {Int}
  * 
  */
 function Ball(x,y,radius,mass,gravity,elasticity,friction,color,lifeTime,options){
@@ -59,6 +60,8 @@ Ball.prototype.init = function(x,y,radius,mass,gravity,elasticity,friction,color
     //default comportement
     this.x              = x;
     this.y              = y;
+    this.lastX          = x;
+    this.lastY          = y;
     this.velocityX      = 0;
     this.velocityY      = 0;
     this.radius         = radius;//realtime radius
@@ -73,6 +76,7 @@ Ball.prototype.init = function(x,y,radius,mass,gravity,elasticity,friction,color
     this._alpha         = this.alpha;//@private
     this._iterator      = 0;//internal iterator
     this.lifeTime       = lifeTime || Infinity;
+    this.borned         = true;
     this.dead           = false;
     this.temporaryOutOfBounds = false;
     
@@ -101,19 +105,23 @@ Ball.prototype.init = function(x,y,radius,mass,gravity,elasticity,friction,color
     
     //explode comportement - can be changed by setter only if not exploding
     this.explodingAlpha     = options ? (options.explodingAlpha ? options.explodingAlpha : false) : false;
-    this.explodingRadius    = options ? (options.explodingRadius ? options.explodingRadius : 2*this.radius) : 2*this.radius;
+    this.explodingRadiusRatio = options ? (options.explodingRadiusRatio ? options.explodingRadiusRatio : 2) : 2;
     this.explodingColor     = (options ? (options.explodingColor ? options.explodingColor : this.color) : this.color).toLowerCase();
     this.explodingRate      = options ? (options.explodingRate ? options.explodingRate : 60) : 60;
     this.explodingInfos     = null;
     
+    //toRadius comportment
+    this.radiusChanging     = false; //pixel number gap
+    this.radiusChangingRate = options ? (options.radiusChangingRate ? options.radiusChangingRate : 60) : 60;
+    
+    if(options && options.explodingRadius)
+        console.warn("[WARN]explodingRadius deprecated, use explodingRadiusRatio");
     if(this.bouncingColor !== this.color && this.validateColorCode(this.bouncingColor) === false)
         console.warn("[WARN]Hexa code expected for bouncingColor. You gave : "+this.bouncingColor);
     if(this.glowingColor !== this.color && this.validateColorCode(this.glowingColor) === false)
         console.warn("[WARN]Hexa code expected for glowingColor. You gave : "+this.glowingColor);
     if(this.explodingColor !== this.color && this.validateColorCode(this.explodingColor) === false)
-        console.warn("[WARN]Hexa code expected for explodingColor. You gave : "+this.explodingColor);    
-    if(this.explodingRadius < this.radius)
-        console.warn("[WARN]explodingRadius < radius, expect error with .explode()");
+        console.warn("[WARN]Hexa code expected for explodingColor. You gave : "+this.explodingColor);
        
     //html renderer
     this.htmlClassAttribute = options ? (options.htmlClassName ? ' class="'+options.htmlClassName+'"' : '') : '';
@@ -416,16 +424,16 @@ Ball.prototype.setExplodingAlpha = function(explodingAlpha){
 /**
  * @return {Int}
  */
-Ball.prototype.getExplodingRadius = function(){return this.explodingRadius;};
+Ball.prototype.getExplodingRadiusRatio = function(){return this.explodingRadiusRatio;};
 
 /**
  * @warn won't be effective if .explode() has already been triggered;
- * @param {Int} explodingRadius
+ * @param {Number} explodingRadiusRatio
  * @return {Ball}
  */
-Ball.prototype.setExplodingRadius = function(explodingRadius){
+Ball.prototype.setExplodingRadiusRatio = function(explodingRadiusRatio){
     if(this.isExploding() === false)
-        this.explodingRadius = explodingRadius;
+        this.explodingRadiusRatio = explodingRadiusRatio;
     return this;
 };
 
@@ -462,6 +470,12 @@ Ball.prototype.setExplodingColor = function(explodingColor){
 };
 
 /**
+ * Returns true if the ball is still growing just after born
+ * @returns {Boolean}
+ */
+Ball.prototype.isBorning = function(){return !this.borned;};
+
+/**
  * Returns true if glowing
  * @return {Boolean}
  */
@@ -484,6 +498,12 @@ Ball.prototype.isBlinking = function(){return this.blinking;};
  * @return {Boolean}
  */
 Ball.prototype.isExploding = function(){return this.explodingInfos !== null ? (this._iterator <= this.explodingInfos.iteratorEnd ? true : false) : false;};
+
+/**
+ * Returns true if radius is changing (triggered by toRadius() )
+ * @return {Boolean}
+ */
+Ball.prototype.isRadiusChanging = function(){return (this.radiusChanging !== false && this.dead === false && this.dying === false);};
 
 /********** End of public setters and getters **********/
 
@@ -563,22 +583,35 @@ Ball.prototype.updateColorOnMove = function(){
 
 Ball.prototype.updateRadiusOnMove = function(){
     
-    if(this.isExploding() && this.explodingRadius > this._radius){
-        this.radius = this.radius + (this.radius < this.explodingRadius ? (this.explodingRadius - this._radius)/this.explodingRate : 0);
-            //fallback if this.radius grows up to original radius
-            if(this.radius > this.explodingRadius)
-                this.radius = this.explodingRadius;
+    if(this.isExploding()){
+        this.radius = this.radius + (this.explodingRadiusRatio*this._radius)/this.explodingRate;
     }
     else{
         //if aging mode On and still growing up (and not grown up), continue to grow up
-        if(this.aging === true && this.dead === false && this.dying === false && this.radius < this._radius && this.dying === false){
+        if(this.isBorning()){
             this.radius = this.radius + (this.radius < this._radius ? this._radius/this.borningRate : 0);
             //fallback if this.radius grows up to original radius
-            if(this.radius > this._radius)
+            if(this.radius >= this._radius){
                 this.radius = this._radius;
+                this.borned = true;
+            }
+        }
+        else if(this.isRadiusChanging()){
+            //choose the rate by dying borning, radiusChnaging
+            this.radius = this.radius + this.radiusChanging/this.radiusChangingRate;
+            //fallback if this.radius grows up to original radius
+            if(Math.round(this.radius)  === this._radius + this.radiusChanging){
+                this.radius = this._radius + this.radiusChanging;
+                this.radiusChanging = false;
+                this._radius = this.radius;
+            }
+            if(this.radius < 0){
+                this.radius     = 0;
+                this.dead       = true;
+            }
         }
         //if dying shrink down
-        if(this.dead === false && this.dying === true && this.lifeTime <= this.dyingRate){
+        else if(this.dying === true && this.dead === false && this.lifeTime <= this.dyingRate){
             this.radius = this.radius - (this.radius > 0 ? this._radius/this.dyingRate : 0);
             //fallback if this.radius shrinks down to 0
             if(this.radius < 0)
@@ -796,6 +829,8 @@ Ball.prototype.move = function(dx,dy){
     this._iterator++;
     dx = dx || 0;
     dy = dy || 0;
+    this.lastX = this.x;
+    this.lastY = this.y;
     this.x = this.x + this.gravity * this.velocityX;
     this.y = this.y + this.gravity * this.velocityY;
     this.velocityX = this.friction * (this.velocityX + dx);
@@ -816,6 +851,7 @@ Ball.prototype.born = function(){
     this.radius = 1;
     this.dying  = false;
     this.dead   = false;
+    this.borned = false;
 };
 
 /**
@@ -837,6 +873,19 @@ Ball.prototype.die = function(){
 Ball.prototype.toDeath = function(){
     this.dying = true;
     this.lifeTime = this.dyingRate;
+    return this;
+};
+
+/**
+ * Doesn't work when exploding, borning or dying
+ * @param {Int} radius
+ * @returns {Ball}
+ */
+Ball.prototype.toRadius = function(radius){
+    if(this.isExploding() || this.isBorning() || this.isDying())
+        return this;
+    this.radiusChanging = radius - this.radius;
+    this._radius = this.radius;
     return this;
 };
 
@@ -943,7 +992,7 @@ Ball.prototype.resolveBallCollision = function(ball,callback){
     ball.updateColorOnCollision();
     
     if(callback)
-        callback.call({});
+        callback();
     
 };
 
@@ -985,7 +1034,7 @@ Ball.prototype.manageStageBorderCollision = function(stageWidth,stageHeight,call
 //        this.updateAlphaOnCollision();
 //        this.updateColorOnCollision();
         if(callback)
-            callback.call({});
+            callback();
     }
 };
 
@@ -1003,6 +1052,137 @@ Ball.prototype.checkOutOfBounds = function(stageWidth,stageHeight){
         return true;
     else
         return false;
+};
+
+/**
+ * 
+ * @param {Point} p1
+ * @param {Point} p2
+ * @returns {Boolean}
+ * 
+ * Mix of / Thanks to
+ * http://asgaard.co.uk/misc/html5canvas.php
+ * http://mathworld.wolfram.com/Circle-LineIntersection.html
+ * http://www.games-creators.org/wiki/Intersection_dans_le_plan_entre_un_cercle_et_un_segment
+ * 
+ */
+Ball.prototype.checkEdgeCollision = function(p1,p2){
+
+    var x1 = p1.x - this.x;
+    var x2 = p2.x - this.x;
+    var y1 = p1.y - this.y;
+    var y2 = p2.y - this.y;
+    var rsq = this.radius*this.radius;
+    var dx = x2 - x1;
+    var dy = y2 - y1;
+    var drsq = dx*dx + dy*dy;
+    var D = x1*y2 - x2*y1;
+    var Dsq = D*D;
+    var delta = rsq*drsq - Dsq;
+    var cut = false;
+    
+    if(delta >=0){
+        cut = ( (this.x-p1.x)*(p2.x-p1.x) + (this.y-p1.y)*(p2.y-p1.y) )/( (p2.x-p1.x)*(p2.x-p1.x) + (p2.y-p1.y)*(p2.y-p1.y) );
+        return (cut >=0 && cut <= 1);
+    }
+    else{
+        return false;
+    }
+    
+};
+
+/**
+ * @deprecated - can't make a fully working method ... feel free to make your own and make a pull request ...
+ * 
+ * @param {Point} p1
+ * @param {Point} p2
+ * @param {Function} callback
+ * @returns {Boolean}
+ */
+Ball.prototype.resolveEdgeCollision = function(p1,p2,callback){
+    
+//    function getNormale(A,B,C){
+//        var u = {}, AC ={},parenthesis,N={},norme;
+//        u.x = B.x - A.x;  
+//        u.y = B.y - A.y;
+//        AC.x = C.x - A.x;  
+//        AC.y = C.y - A.y;
+//        parenthesis = u.x*AC.y-u.y*AC.x;  // calcul une fois pour les deux
+//        N.x = -u.y*(parenthesis);
+//        N.y = u.x*(parenthesis);
+//        // normalisons
+//        norme = Math.sqrt(N.x*N.x + N.y*N.y);
+//        N.x/=norme;
+//        N.y/=norme;
+//        return N;
+//    }
+//    
+//    var v2={},pscal,v = {},N;
+//    v.x = p2.x - p1.x;
+//    v.y = p2.y - p1.y;
+//    N = getNormale(p1,p2,this);
+//    pscal = (v.x*N.x +  v.y*N.y);
+//    v2.x = v.x -2*pscal*N.x;
+//    v2.y = v.y -2*pscal*N.y;
+//    
+//    this.x = this.lastX;
+//    this.y = this.lastY;
+//    
+//    this.velocityX = v2.x/10;
+//    this.velocityY = v2.y/10;
+    
+    
+    // if there is an intersection we roll back the coordinates
+    this.x = this.lastX;
+    this.y = this.lastY;
+    
+    var d_x = p2.x - p1.x;
+    var d_y = p2.y - p1.y;
+    var d_r_sq = d_x*d_x + d_y*d_y;
+
+    // and rebound the ball via its velocity.
+    var sqrt = Math.sqrt;
+    var vx = this.velocityX;
+    var vy = this.velocityY;
+    var m = sqrt(vx*vx + vy*vy);
+
+    var veloc_normalised = [vx/m, vy/m];
+    var line_normalised = [d_x/sqrt(d_r_sq), d_y/sqrt(d_r_sq)];
+
+    // Angle of impact between velocity and line
+    var angle = Math.atan2(line_normalised[1], 
+                           line_normalised[0]) 
+                - Math.atan2(veloc_normalised[1], 
+                            veloc_normalised[0]);
+
+    // Angle to reflect/bounce
+    var reflection = Math.PI + angle;
+    // sin^2(x) + cos^2(x) = 1 so this is a normal vector, which we then 
+    // scale up by the velocity's original
+    // magnititude and then scale down according to the 
+    // bounce_factor/damping.
+    this.velocityX = Math.sin(reflection)* m;// * bounce_factor;
+    this.velocityY = Math.cos(reflection)* m;// * bounce_factor;
+//    console.info('velocity',this.velocityX,this.velocityY);
+    
+    //--------
+    
+    // if there is an intersection we roll back the coordinates
+//    this.x = this.lastX;
+//    this.y = this.lastY;
+//    
+//    var lineVector = new Vector2D(p1.x-p2.x,p1.y-p2.y);
+//    var velocityVector = new Vector2D(this.velocityX,this.velocityY);
+//    
+//    var angle = lineVector.angleBetween(velocityVector);
+//    
+//    console.info('anglebetween',angle,angle*180/Math.PI);
+//    
+//    var reflection = Math.PI + angle;
+//    
+//    this.velocityX = Math.sin(reflection);
+//    this.velocityY = Math.cos(reflection);
+    
 };
 
 /**

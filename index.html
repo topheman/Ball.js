@@ -7,22 +7,31 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <meta name="apple-touch-fullscreen" content="yes" />
         <meta name=viewport content="width=device-width" />
-        <link rel="stylesheet" type="text/css" href="./style.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     </head>
     <body>
-		<a href="https://github.com/topheman/Ball.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
-        <h1>Ball.js</h1>
+		<a href="https://github.com/topheman/Ball.js/tree/v2"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+        <h1>Ball.js - v2.0</h1>
+        <p>v2.0 - <strong>Work in progress, more features to come for this version !</strong></p>
         <p>Ball.js is a Javascript class that handles <strong>physics interactions</strong> between balls (i.e. collisions) on a flat area as well as <strong>rendering</strong>.
         <p>You can <strong>render in canvas mode as well as in html mode</strong>.</p>
         <p>You have a bunch of display effects such as glowing, blinking, exploding (changing the radius, color, alpha) ...</p>
         <p>I made an <strong>HTML5/Javascript</strong> game based on this class. You can see it in action on <a href="http://bombs.topheman.com" title="Topheman Bombs">http://bombs.topheman.com</a></p>
         <p><strong>There you can try the demos :</strong></p>
         <ul>
-            <li><a href="./demo/canvas-rendering.html">Canvas rendering mode</a></li>
-            <li><a href="./demo/html-rendering.html">HTML rendering mode</a></li>
+            <li><a href="./demo/canvas-rendering.html">Simple Canvas rendering mode</a></li>
+            <li><a href="./demo/html-rendering.html">Simple HTML rendering mode</a></li>
+            <li><strong><a href="./demo/v2-edge-bounce.html">V2 - Edge bounce (canvas only)</a></strong></li>
         </ul>
         <p>This class could be used in all kinds of animations and games such as pool billard or air hockey ...</p>
+        <hr>
+        <p>V2 - changelog :</p>
+        <ul>
+            <li>added method .toRadius()</li>
+            <li>changed options.explodingRadius to options.explodingRatio</li>
+            <li>added .checkEdgeCollision() method</li>
+            <li>added .resolveEdgeCollision() method - <strong>need HELP for this one please</strong> ! angle resolution problem as you can see on this example : <strong><a href="./demo/v2-edge-bounce.html">V2 - Edge bounce (canvas only)</a></strong> ...</li>
+        </ul>
         <p>copyright © 2012 Christophe Rosset (<a href="http://twitter.com/topheman">Topheman</a>), released under <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons <img alt="Licence Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a></p>
     </body>
 </html>
