@@ -8,6 +8,11 @@
         <meta name="apple-touch-fullscreen" content="yes" />
         <meta name=viewport content="width=device-width" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script>
+            jQuery(function(){
+                jQuery('#help').slideDown(700);
+            });
+        </script>
     </head>
     <body>
 		<a href="https://github.com/topheman/Ball.js/tree/v2"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
@@ -25,13 +30,30 @@
         </ul>
         <p>This class could be used in all kinds of animations and games such as pool billard or air hockey ...</p>
         <hr>
-        <p>V2 - changelog :</p>
+        <h2>V2 - changelog :</h2>
         <ul>
             <li>added method .toRadius()</li>
             <li>changed options.explodingRadius to options.explodingRatio</li>
             <li>added .checkEdgeCollision() method</li>
             <li>added .resolveEdgeCollision() method - <strong>need HELP for this one please</strong> ! angle resolution problem as you can see on this example : <strong><a href="./demo/v2-edge-bounce.html">V2 - Edge bounce (canvas only)</a></strong> ...</li>
         </ul>
+        <hr>
+        <h2 style="color:#900000;">Help needed</h2>
+        <div id="help" style="display:none;">
+        <p>
+        Comme vous le verrez dans l'exemple suivant, j'ai deux principaux problèmes que je n'arrive pas à résoudre sur Ball.js :<br>
+        - méthode .resolveEdgeCollision() : les angles de rebonds ne sont pas cohérents<br>
+        - méthode .checkEdgeCollision() : si la vélocité de la ball (la longueur qu'elle parcourt à chaque frame) est supérieure à son diamètre, potentiellement, elle passera à travers un segment et ne déclenchera pas de collision<br>
+        Cette version est la 2.0, elle est sur une branch du github du projet Ball.js<br>
+<br>
+        As you will see on the demo, I have two major problems that I'm having a really hard time to solve on Ball.js :<br>
+        - method .resolveEdgeCollision() : bounce angle is inconsistent<br>
+        - method .checkEdgeCollision() : if the ball's velocity (the length that it runs each frame) is higher than its diameter, eventually, it will pass through an edge, without triggering any collision<br>
+        This version is 2.0, it's on a branch of the github project Ball.js<br>
+        <br>
+        <a href="./demo/v2-edge-bounce.html">Demo (V2 - Edge bounce)</a></strong>
+        </p>
+        </div>
         <p>copyright © 2012 Christophe Rosset (<a href="http://twitter.com/topheman">Topheman</a>), released under <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons <img alt="Licence Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a></p>
     </body>
 </html>
