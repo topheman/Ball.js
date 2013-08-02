@@ -4,8 +4,8 @@
  * http://blog.topheman.com/
  * http://twitter.com/topheman
  * 
- * You are free to use, modify and distribute this software under the conditions of the Creative Commons 3.0 license
- * http://creativecommons.org/licenses/by/3.0/
+ * You are free to use, modify and distribute this software under the conditions of the MIT license
+ * https://github.com/topheman/Ball.js/blob/master/LICENSE
  *
  * Ball.js
  * Manages Ball physics and display on a flat area (collisions, gravity, bounces ...)
