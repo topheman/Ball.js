@@ -1,0 +1,55 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h1>Introduction</h1>
+
+        <p><a href="https://github.com/topheman/Ball.js/tree/v2">Ball.js</a> gère les interactions physiques entre les balles ainsi que la gestion du rendu dans le navigateur. Dans sa version 1.0, les interactions <strong>(résolution des collisions)</strong> ne se font qu'entre les balles (ce qui marche sans problème, comme vous pourrez le voir dans <a href="http://labs.topheman.com/Ball/demo/canvas-rendering.html">cet exemple</a>).</p>
+
+        <p>Dans la version 2, je souhaiterais y rajouter des interactions avec des segments (ce qui permettrait de faire des jeux tels que des labyrinthes ou autres ...). Comme vous le verrez dans <a href="http://labs.topheman.com/Ball-v2/demo/v2-edge-bounce.html">cet exemple</a>, je rencontre quelques bugs (les angles de collision sont incorrects).</p>
+
+        <h1>Le problème de Maths</h1>
+
+        <p>But :  partir des coordonnées d'une balle (Xc,Yc), et de sa vélocité V(Xv,Yv), par rapport à un segment AB (Xa,Ya) (Xb,Yb), j'ai besoin de trouver :</p>
+
+        <ul>
+            <li><strong>Si la balle va entrer en collision (croiser) avec le segment AB</strong> (voir le schéma "frame 0")
+                <ul>
+                    <li>tenir compte du fait que la balle peut avancer à une vitesse très grande ou être très petite</li>
+                    <li>tenir compte du fait que le segment AB aurait pu être BA (s'il y a un sens ou une normale à tester, me le faire savoir)</li>
+                </ul>
+            </li>
+            <li>Si il y a intersection (comme sur le schéma "frame 1"), alors :
+                <ul>
+                    <li><strong>trouver le point C2 (Xc2,Yc2), de manière à ce que la balle soit tangente au point I</strong> (je n'ai pas besoin nécessairement des coordonnées du point I) (voir schéma "frame 2")</lI>
+                    <li>Attention, la balle doit être du bon côté du segment AB</li>
+                    <li><strong>trouver les coordonnées du vecteur V2(Xv2,Yv2)</strong> (le rebond)
+                        <ul>
+                            <li>le vecteur V2 a la même longueur que le vecteur V1</li>
+                            <li>l'angle &alpha; = &alpha;'</li>
+                        </ul>
+                </ul>
+        </ul>
+        
+        <a href="images/expose.png" title="Agrandir"><img src="images/expose.png" style="width:100%"></a>
+        
+        <h3>Contacts</h3>
+        
+        <p>Vous pouvez me contacter sur mon <a href="https://twitter.com/topheman">twitter</a> ou sur mon <a href="mailto:tophe@topheman.com?subject=[ball.js-help]">mail</a></p>
+        
+        <p>Je vous remercie d'avance pour vos réponses, j'espère avoir été clair dans l'exposé de mon problème, j'ai essayé de présenter mon problème d'algo le plus sous la forme d'un problème de Maths.
+            Je m'occuperai d'intégrer votre solution à mon code moi-même cependant, si cela vous amuse vous pouvez tout à fait utiliser le code de Ball.js, je l'ai mis sous license creative commons.</p>
+        
+        <p>Tophe</p>
+        
+        <p>PS : Vous pouvez voir Ball.js en action sur <a href="http://bombs.topheman.com/">bombs.topheman.com</a>, un jeu que j'ai fait pour iPhone, basé sur ce moteur de collision/rendu.</p>
+        
+    </body>
+</html>

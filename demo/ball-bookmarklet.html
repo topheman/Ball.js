@@ -1,0 +1,138 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Test Html</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <ul id="controls">
+            <li id="toggle-pause">Pause</li>
+            <li id="blink-balls">.blink()</li>
+            <li id="glow-balls">.glow()</li>
+            <li id="die-balls">.die()</li>
+            <li id="to-death-balls">.toDeath()</li>
+            <li id="explode">.explode()</li>
+        </ul>
+    </body>
+	<script>
+	(function(){
+		//init css
+		if(document.createStyleSheet){
+			document.createStyleSheet().cssText = '.ball{position:absolute;display: block;z-index:10000;}';
+		}
+		else{
+			var tag = document.createElement('style');
+			tag.type = 'text/css';
+			document.getElementsByTagName('head')[0].appendChild(tag); 
+			tag[ (typeof document.body.style.WebkitAppearance=='string') /* webkit only */ ? 'innerText' : 'innerHTML'] = '.ball{position:absolute;display: block;z-index:10000;}';
+		}
+		//import scripts
+		var head = document.getElementsByTagName('head');
+		var requestAnimScript=document.createElement('SCRIPT');
+		requestAnimScript.type='text/javascript';
+		requestAnimScript.src='http://bombs.topheman.com/game/js/requestAnimFrame.js';
+		head[0].appendChild(requestAnimScript);
+		var vector2DScript=document.createElement('SCRIPT');
+		vector2DScript.type='text/javascript';
+		vector2DScript.src='http://bombs.topheman.com/game/js/Vector2D.js';
+		head[0].appendChild(vector2DScript);
+		var ballScript=document.createElement('SCRIPT');
+		ballScript.type='text/javascript';
+		ballScript.src='http://bombs.topheman.com/game/js/Ball.js';
+		head[0].appendChild(ballScript);
+		//init vars
+		var balls = [];
+		var iterator = 0;
+		var BALL_ADD_RATE     = 100;
+		var BALL_RADIUS       = 15;
+		var BALL_MASS         = 1.3;
+		var BALL_COLOR        = '#0000FF';//blue
+		var BALL_GRAVITY      = 1;
+		var BALL_ELASTICITY   = 0.98;
+		var BALL_FRICTION     = 1;
+		var BALL_LIFETIME     = 5000;
+		var BALL_OPTIONS	  = {aging:true,bouncingAlpha:true,bouncingColor:'#000000',htmlClassName:'ball'};
+		var width;
+		var height;
+		var innerHtml = "";
+		
+		test();
+			
+		function test(){
+			if(typeof Ball == 'undefined' || typeof Vector2D == 'undefined' || typeof requestAnimFrame == 'undefined')
+				setTimeout(test,15);
+			else
+				init();
+		}
+		
+		function init(){
+			width = window.innerWidth;
+			height = window.innerHeight;
+			var body = document.getElementsByTagName('body')[0];
+			body.style['overflow-x'] = 'hidden';
+			body.style['overflow-y'] = 'hidden';
+			var stageWrapper = document.createElement('div');
+			stageWrapper.style.position = 'absolute';
+			stageWrapper.style.top = '0px';
+			stageWrapper.style.left = '0px';
+			stageWrapper.id = 'ball-stage-wrapper';
+			stageWrapper.style.width = width;
+			stageWrapper.style.height = height;
+			var stage = document.createElement('div');
+			stage.style.position = 'relative';
+			stage.id = 'ball-stage';
+			stage.style.width = width;
+			stage.style.height = height;
+			stageWrapper.appendChild(stage);
+			document.getElementsByTagName('body')[0].appendChild(stageWrapper);
+			animate();
+		}
+		
+		function animate(){
+			var i,j;
+			window.requestAnimFrame(animate);
+			iterator++;
+
+			//remove dead balls
+			for(i=balls.length-1;i>=0;i--){
+				if(balls[i].isDead() == true)
+					balls.splice(i,1);
+			}
+
+			//add balls
+			if(iterator%BALL_ADD_RATE == 0 || iterator == 1){
+				var ball = new Ball(0, 0, BALL_RADIUS, BALL_MASS, BALL_GRAVITY, BALL_ELASTICITY, BALL_FRICTION, BALL_COLOR, BALL_LIFETIME, BALL_OPTIONS);
+				ball.setRandomPositionAndSpeedInBounds(width, height);
+				balls.push(ball);
+			}
+
+			//move balls
+			for(i=0;i<balls.length;i++){
+				balls[i].move();
+			}
+
+			//check balls vs border collision
+			for(i=0;i<balls.length;i++){
+				balls[i].manageStageBorderCollision(width, height);
+			}
+
+			//check ball vs ball collision
+			for(i=0;i<balls.length;i++){
+				for(j=i+1;j<balls.length;j++){
+					if(balls[i].checkBallCollision(balls[j]) === true){
+						balls[i].resolveBallCollision(balls[j]);
+					}
+				}
+			}
+
+			//draw balls
+			innerHtml = "";
+			for(i=0;i<balls.length;i++){
+				innerHtml += balls[i].renderHtml();
+			}
+			document.getElementById('ball-stage').innerHTML = innerHtml;
+		}
+		
+	})()
+	</script>
+</html>

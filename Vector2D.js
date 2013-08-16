@@ -44,6 +44,11 @@ Vector2D.prototype = {
         this.y+=vector.y;
         return this;
     },
+            
+    selfPlus:function(vector)
+    {
+        return this.add(vector);
+    },
 
     //subtract
     subtract:function(vector)
@@ -67,6 +72,14 @@ Vector2D.prototype = {
         this.x*=scale;
         this.y*=scale;
         return this;
+    },
+     
+    selfMul:function(scale){
+        return this.scale(scale);
+    },
+     
+    scaleVec:function(scale){
+        return this.scale(scale);
     },
 
     //has same direction
@@ -127,6 +140,24 @@ Vector2D.prototype = {
     toString:function()
     {
         return "Vector2d("+this.x+","+this.y+")";
+    },
+    
+    copyFrom:function(x,y){
+        this.x = x;
+        this.y = y;
+    }, 
+            
+    getRightNormal:function() {
+        return new Vector2D(this.y, -this.x);
+    },
+            
+    getLeftNormal:function() {
+        return new Vector2D(-this.y, this.x);
+    },     
+    
+    lerpSelfTo:function(that, scale) {
+        this.x += (that.x - this.x) * scale;
+        this.y += (that.y - this.y) * scale;
     }
     
 };
