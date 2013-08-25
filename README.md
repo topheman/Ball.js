@@ -26,4 +26,4 @@ To use Ball.js, you only have to include Vector2D.js (a js implementation of the
 
 * Include Vector2D inside Ball.js to optimize garbage collection
 
-copyright © 2012 Christophe Rosset (Topheman), released under [Creative Commons 3.0 license](http://creativecommons.org/licenses/by-sa/3.0/)
+copyright © 2012 Christophe Rosset (Topheman), released under [MIT LICENSE](https://github.com/topheman/Ball.js/blob/master/LICENSE)
